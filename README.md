@@ -27,6 +27,13 @@ OR
 1. Create a Spotify Developer account and register an application to obtain the `Client_ID` and `Client_Secret`.
 2. Store these credentials in a `secrets.py` file in the same directory as the script with variables `CLIENT_ID` and `CLIENT_SECRET`.
 
+Example File:
+
+```# secrets.py
+CLIENT_ID = 'someClientID'
+CLIENT_SECRET = 'someSecretID'
+```
+
 ## Usage
 
 python mp3_metadata_updater.py -p <path to MP3 file or directory>
