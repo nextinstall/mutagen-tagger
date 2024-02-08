@@ -13,7 +13,11 @@ This script is designed to enhance the metadata of MP3 files, specifically focus
 
 Before running the script, ensure you have Python installed on your system. Then, install the required Python packages using pip:
 
-pip install mutagen spotipy
+`pip install mutagen spotipy`
+
+OR
+
+`pip install -r requirements.txt`
 
 
 
