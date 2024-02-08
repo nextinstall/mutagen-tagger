@@ -37,7 +37,7 @@ CLIENT_SECRET = 'someSecretID'
 
 ## Usage
 
-python mp3_metadata_updater.py -p <path to MP3 file or directory>
+`python mp3_metadata_updater.py -p <path to MP3 file or directory>`
 
 
 - `<path to MP3 file or directory>`: Specify the path to an MP3 file or a directory containing MP3 files. The script updates the genre and comments metadata for each MP3 file found.
