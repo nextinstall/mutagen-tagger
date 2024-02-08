@@ -29,7 +29,8 @@ OR
 
 Example File:
 
-```# secrets.py
+```
+# secrets.py
 CLIENT_ID = 'someClientID'
 CLIENT_SECRET = 'someSecretID'
 ```
