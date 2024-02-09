@@ -52,7 +52,7 @@ def extract_metadata(file_path):
     try:
         # Load the file using mutagen
         audiofile = mutagen.File(file_path, easy=True)
-        logging.info(f"targeting file: {audiofile}")
+        #logging.info(f"targeting file: {audiofile}")
         # Check if it's an MP3 file with ID3 tags
         if audiofile is not None: #and isinstance(audiofile, mutagen.id3.ID3FileType):
             # Extract artist, title, comments, and genre
@@ -64,7 +64,7 @@ def extract_metadata(file_path):
             if artist and title:
                 return artist, title, comments, genre
             else:
-                logging.warn("Artist or title tag not found.")
+                logging.warning("Artist or title tag not found.")
                 return None, None, None, None
         else:
             logging.error(f"The file {file_path} is not an MP3 file or does not contain ID3 tags")
@@ -126,21 +126,33 @@ def process_file(sp, file_path):
     artist, title, comments, genre = extract_metadata(file_path)
 
     if artist and title:
-        if genre is None:
-            new_genre = get_genre(sp, artist, title)
-            update_genre(file_path, new_genre)
+        # Attempt to find a genre if not already tagged
+        new_genre = get_genre(sp, artist, title) if genre is None else None
 
-            # Ensure comments is not None before checking
-            if comments is None:
-                comments = ""
+        # If a new genre is found and it's different from 'Unknown'
+        if new_genre and new_genre != 'Unknown':
+            # Check if comments exist and prepare them for update
+            comments = "" if comments is None else comments
             
-            # Update comments to include genre only if not already present
-            genre_comment = f" Genre: {new_genre}"
+            # Format the genre comment and check if it's already in the comments
+            genre_comment = f"Genre: {new_genre}"
             if genre_comment not in comments:
-                new_comments = f"{comments}{genre_comment}" if comments else genre_comment
+                # Append the new genre to the comments if it's not already mentioned
+                new_comments = f"{comments} {genre_comment}".strip()
                 updateComments(file_path, new_comments)
+            else:
+                logging.info("Genre already mentioned in comments, no update required.")
+        elif genre:  # If an existing genre is found, check for comment update without altering the genre tag
+            genre_comment = f"Genre: {genre}"
+            if genre_comment not in comments:
+                new_comments = f"{comments} {genre_comment}".strip()
+                updateComments(file_path, new_comments)
+            else:
+                logging.info("Genre already mentioned in comments, no update required.")
+        else:
+            logging.warning(f"Genre for {artist} - {title} could not be determined or is already set.")
     else:
-        logging.warn("Either artist or title or both were not found in the file's metadata.")
+        logging.warning("Either artist or title or both were not found in the file's metadata.")
 
 def main():
     # Set up logging
