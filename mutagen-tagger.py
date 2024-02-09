@@ -101,7 +101,7 @@ def updateComments(file_path, new_genre):
             audiofile.save(file_path)
             logging.info(f"Comments updated for {file_path}")
         else:
-            logging.info("Genre already mentioned in comments, no update required.")
+            logging.info("Genre already mentioned in comments, no update required.\n")
 
     except Exception as e:
         logging.error(f"An error occurred while updating comments: {e}")
@@ -141,22 +141,24 @@ def process_file(sp, file_path):
                 new_comments = f"{comments} {genre_comment}".strip()
                 updateComments(file_path, new_comments)
             else:
-                logging.info("Genre already mentioned in comments, no update required.")
+                logging.info("Genre already mentioned in comments, no update required.\n")
         elif genre:  # If an existing genre is found, check for comment update without altering the genre tag
             genre_comment = f"Genre: {genre}"
             if genre_comment not in comments:
                 new_comments = f"{comments} {genre_comment}".strip()
                 updateComments(file_path, new_comments)
             else:
-                logging.info("Genre already mentioned in comments, no update required.")
+                logging.info("Genre already mentioned in comments, no update required.\n")
         else:
-            logging.warning(f"Genre for {artist} - {title} could not be determined or is already set.")
+            logging.warning(f"Genre for {artist} - {title} could not be determined or is already set.\n")
     else:
-        logging.warning("Either artist or title or both were not found in the file's metadata.")
+        logging.warning("Either artist or title or both were not found in the file's metadata.\n")
 
 def main():
     # Set up logging
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO,
+                    format='%(levelname)s: %(message)s')
+
 
     parser = argparse.ArgumentParser(description="Update genre metadata in MP3 files.")
     parser.add_argument("-p", "--path", type=str, help="Path to the MP3 file or directory containing MP3 files", required=True)
@@ -174,14 +176,14 @@ def main():
             if filename.endswith('.mp3'):
                 file_path = os.path.join(expanded_path, filename)
                 #logging.info('\n' + file_path)  
-                logging.info(filename)
+                logging.info('Found: ' + file_path)
                 
                 process_file(sp, file_path)
 
     elif os.path.isfile(expanded_path) and expanded_path.endswith('.mp3'):
         process_file(sp, expanded_path)
     else:
-        logging.error(f"The specified path does not exist or is not an MP3 file: {expanded_path}")
+        logging.error(f"The specified path does not exist or is not an MP3 file: {expanded_path}\n")
 
 if __name__ == "__main__":
     main()
