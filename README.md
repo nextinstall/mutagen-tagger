@@ -1,4 +1,4 @@
-# mutagen-tagger - MP3 Metadata Updater
+# mutagen-tagger.py - MP3 Metadata Genre Updater
 
 ## Overview
 This script is designed to enhance the metadata of MP3 files, specifically focusing on updating genre information and comments by utilizing the Spotify API. It reads MP3 files, extracts their metadata, searches for the track on Spotify to determine the genre, and updates the MP3 file's metadata accordingly.
@@ -21,7 +21,6 @@ OR
 
 
 
-
 ## Configuration
 
 1. Create a Spotify Developer account and register an application to obtain the `Client_ID` and `Client_Secret`. 
@@ -40,7 +39,7 @@ CLIENT_SECRET = 'someSecretID'
 
 ## Usage
 
-`python mp3_metadata_updater.py -p <path to MP3 file or directory>`
+`python mutagen-tagger.py -p <path to MP3 file or directory>`
 
 
 - `<path to MP3 file or directory>`: Specify the path to an MP3 file or a directory containing MP3 files. The script updates the genre and comments metadata for each MP3 file found.
